@@ -99,5 +99,37 @@ class Plugin_Name_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+  
+  
+  public function load_redux()
+  {
+      if(!is_admin() || !current_user_can('administrator') || (defined('DOING_AJAX') && DOING_AJAX && (isset($_POST['action']) && !$_POST['action'] == "plugin_name_mode_options_ajax_save") )) {
+
+          return false;
+      }
+
+      // Load the theme/plugin options
+      if (file_exists(plugin_dir_path(dirname(__FILE__)).'admin/plugin-name-options-init.php')) {
+          require_once plugin_dir_path(dirname(__FILE__)).'admin/plugin-name-options-init.php';
+      }
+      return true;
+  }
+  
+	/**
+	 * Register options
+	 *
+	 * @since    1.0.0
+	 */
+  public function init()
+  {
+      global $plugin_name_mode_options;
+
+      if(!is_admin() || !current_user_can('administrator') || (defined('DOING_AJAX') && DOING_AJAX)){
+          $plugin_name_mode_options = get_option('plugin_name_mode_options');
+      }
+
+      $this->options = $plugin_name_mode_options;
+  }
+  
 
 }

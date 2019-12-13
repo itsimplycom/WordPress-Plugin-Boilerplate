@@ -59,6 +59,11 @@ register_activation_hook( __FILE__, 'activate_plugin_name' );
 register_deactivation_hook( __FILE__, 'deactivate_plugin_name' );
 
 /**
+ * Include function
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/plugin-name-function.php';
+
+/**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
@@ -79,4 +84,18 @@ function run_plugin_name() {
 	$plugin->run();
 
 }
-run_plugin_name();
+
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+if ( is_plugin_active( 'redux-framework/redux-framework.php' ) || is_plugin_active( 'redux-dev-master/redux-framework.php' ) ) {
+    run_plugin_name();
+} else {
+    add_action( 'admin_notices', 'plugin_name_installed_notice' );
+}
+
+function plugin_name_installed_notice() {
+    ?>
+    <div class="error">
+        <p><?php _e( 'WordPress Plugin Boilerplate requires free Redux Framework plugin. Please install or activate them before!', PLUGIN_NAME_TEXT_DOMAIN ); ?></p>
+    </div>
+    <?php
+}
