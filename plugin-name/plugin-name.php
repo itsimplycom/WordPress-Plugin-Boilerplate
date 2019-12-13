@@ -36,6 +36,8 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'PLUGIN_NAME_VERSION', '1.0.0' );
+define( 'PLUGIN_NAME_TEXT_DOMAIN', 'plugin-name' );
+define( 'PLUGIN_NAME_CACHE_GROUP', 'plugin-name' );
 
 /**
  * The code that runs during plugin activation.
